@@ -21,7 +21,14 @@ steps:
   displayName: 'Use .NET Core SDK 2.1.505 for SonarCloud'
   inputs:
     version: '2.1.505'
-
+  condition: |
+    and
+    (
+      succeeded(),
+      eq(variables['Build.Reason'], 'PullRequest'),
+      eq(variables['System.PullRequest.TargetBranch'], 'master')
+    )
+    
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
